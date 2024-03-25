@@ -18,6 +18,7 @@ def fetch(config: LoadPostsConfig) -> None:
 
 
 async def collect_posts(config: LoadPostsConfig) -> None:
+    counter = 0
     channels_to_export_cut = map(cut_channel_link, config.channels)
 
     for channel_name in channels_to_export_cut:
@@ -32,7 +33,7 @@ async def collect_posts(config: LoadPostsConfig) -> None:
             message: Message
             async for message in client.iter_messages(entity, offset_date=config.start_date, reverse=True):
                 from random import random
-                if random() < 0.9:
+                if random() < 0.97:
                     continue
 
                 if not message.text:
@@ -41,4 +42,9 @@ async def collect_posts(config: LoadPostsConfig) -> None:
                 if message.date.date() > config.end_date.date():
                     break
 
+                print("Exporting message...")
                 export_post_to_csv(csv_writer, message)
+                destination_file_obj.flush()
+                counter += 1
+
+    print(f"Collected {counter} posts.")

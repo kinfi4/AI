@@ -1,7 +1,7 @@
 import os
 import typing
 
-from emoji import EMOJI_DATA
+# from emoji import EMOJI_DATA
 from telethon.tl.custom.message import Message
 
 
@@ -22,7 +22,7 @@ def chat_name_standardizer(chat_name: str) -> str:
 
     symbols_to_remove = ('|', '"', '\'', '-', ',', '.')
     new_chat_name = chat_name.translate({ord(c): '' for c in symbols_to_remove})
-    new_chat_name = ''.join([c for c in new_chat_name if c not in EMOJI_DATA and ord(c) < 1200])
+    # new_chat_name = ''.join([c for c in new_chat_name if c not in EMOJI_DATA and ord(c) < 1200])
     new_chat_name = new_chat_name.strip()
     new_chat_name = new_chat_name.replace(' ', '_')
 
@@ -47,6 +47,6 @@ def export_post_to_csv(csv_writer, message: Message) -> None:
 
 def get_or_create_channel_file(file_path: str) -> typing.TextIO:
     if os.path.exists(file_path):
-        return open(file_path, 'a')
+        return open(file_path, 'a', encoding="UTF-8")
 
-    return open(file_path, 'w')
+    return open(file_path, 'w', encoding="UTF-8")

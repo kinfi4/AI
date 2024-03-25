@@ -49,7 +49,7 @@ def cli():
 
 
 @cli.command()
-@click.option("--channels-file", "-f", help="Path to json file with channels list", default="/home/kinfi4/python/Kin-News/kin-models/news-classification/scripts/fetch-news/channels.json")
+@click.option("--channels-file", "-f", help="Path to json file with channels list", default="./fetch-news/channels.json")
 @click.option("--start-date", "-s", help="Start date in format YYYY-MM-DD")
 @click.option("--end-date", "-e", help="End date in format YYYY-MM-DD")
 @click.argument("output_file_path")
