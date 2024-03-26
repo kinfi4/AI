@@ -9,7 +9,10 @@ from .utils import cut_channel_link, export_post_to_csv, get_or_create_channel_f
 from .fetch_config import LoadPostsConfig
 
 
-client = TelegramClient("session-1", api_id=int(os.getenv("API_ID")), api_hash=os.getenv("API_HASH"))
+_WORDS_MUST_BE = ["корупц", "розкрад", "присво", "шахрай", "злочин", "втручан", "втручання", "зловжив", "коррупц", "расхищ", "присво", "мошен", "преступ", "вмешательство", "вмешательства", "присвоил"]
+
+
+client = TelegramClient("session-1", api_id=int(17332691), api_hash="626a6ab20ca7d1c151a4d1984448fd0c")
 
 
 def fetch(config: LoadPostsConfig) -> None:
@@ -32,11 +35,14 @@ async def collect_posts(config: LoadPostsConfig) -> None:
 
             message: Message
             async for message in client.iter_messages(entity, offset_date=config.start_date, reverse=True):
-                from random import random
-                if random() < 0.97:
+                if not message.text:
                     continue
 
-                if not message.text:
+                if not any(word in message.text.lower() for word in _WORDS_MUST_BE):
+                    continue
+
+                from random import random
+                if random() < 0.3:
                     continue
 
                 if message.date.date() > config.end_date.date():
